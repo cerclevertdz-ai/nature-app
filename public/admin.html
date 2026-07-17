@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — Moi j'aime mon pays</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+  body{background:#f0f2eb}
+  .admin-shell{max-width:1200px;margin:0 auto;padding:20px}
+  .admin-header{background:linear-gradient(135deg,#0e5c3f,#1e8a5a);color:#fff;padding:16px 24px;border-radius:12px;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+  .admin-header h1{font-size:20px}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+  .stat{background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);text-align:center}
+  .stat .num{font-size:28px;font-weight:700;color:var(--green-1)}
+  .stat .lbl{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:.5px}
+  .stat.warn{border:2px solid #dc3545}
+  .stat.warn .num{color:#dc3545}
+  .admin-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+  .admin-tabs button{padding:8px 16px;border:none;background:#fff;border-radius:20px;font-weight:600;color:var(--green-1);box-shadow:var(--shadow)}
+  .admin-tabs button.active{background:var(--green-1);color:#fff}
+  table{width:100%;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border-collapse:collapse}
+  th,td{padding:10px;text-align:left;border-bottom:1px solid #eee;font-size:13px;vertical-align:middle}
+  th{background:#f5efe0;color:var(--green-1);font-weight:700;font-size:12px;text-transform:uppercase}
+  .thumb{width:60px;height:60px;object-fit:cover;border-radius:8px;margin-right:4px;cursor:pointer}
+  .row-photos{display:flex;gap:4px}
+  .badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:700}
+  .badge.pending{background:#fff3cd;color:#856404}
+  .badge.approved{background:#d4edda;color:#155724}
+  .badge.rejected{background:#f8d7da;color:#721c24}
+  .badge.winner{background:linear-gradient(135deg,#d4a017,#e8b93a);color:#fff}
+  .btn-sm{padding:5px 10px;font-size:12px;border-radius:6px;border:none;font-weight:600;cursor:pointer;margin-right:4px;margin-bottom:2px}
+  .btn-approve{background:#28a745;color:#fff}
+  .btn-reject{background:#dc3545;color:#fff}
+  .btn-winner{background:var(--gold);color:#fff}
+  .btn-del{background:#6c757d;color:#fff}
+  .btn-pending{background:#ffc107;color:#000}
+  .login-box{max-width:400px;margin:80px auto;background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow)}
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:90%;max-height:90vh;border-radius:12px}
+  .ip-warn{color:#dc3545;font-weight:700;font-size:11px}
+  .section-title{color:var(--green-1);margin:20px 0 10px;font-size:16px;font-weight:700}
+  .change-pwd-box{background:#fff;border-radius:12px;padding:16px;box-shadow:var(--shadow);margin-top:20px;max-width:400px}
+</style>
+</head>
+<body>
+
+<div id="loginPanel" class="login-box">
+  <h2 style="color:var(--green-1);margin-bottom:16px">🔒 Administration</h2>
+  <div class="form-group">
+    <label>Pseudo admin</label>
+    <input type="text" id="adminUser" autocomplete="username">
+  </div>
+  <div class="form-group">
+    <label>Mot de passe</label>
+    <input type="password" id="adminPass" autocomplete="current-password" placeholder="••••••">
+  </div>
+  <button class="btn-primary" id="btnAdminLogin">Se connecter</button>
+  <div id="loginMsg" style="margin-top:12px"></div>
+</div>
+
+<div id="adminPanel" class="admin-shell hidden">
+  <div class="admin-header">
+    <div class="logo" style="border-color:#fff">
+      <img src="/img/cerf.png" alt="Cerf de Berbérie" style="width:100%;height:100%;object-fit:cover">
+    </div>
+    <div style="flex:1">
+      <h1>Panneau d'administration</h1>
+      <div style="font-size:13px;opacity:.9">Moi j'aime mon pays / شوف أنا نحب الطبيعة</div>
+    </div>
+    <button class="btn-secondary" id="btnAdminLogout" style="background:#fff">Déconnexion</button>
+  </div>
+
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <div class="admin-tabs">
+    <button data-tab="posts" data-filter="pending" class="active">🕓 En attente</button>
+    <button data-tab="posts" data-filter="approved">✅ Approuvés</button>
+    <button data-tab="posts" data-filter="rejected">❌ Rejetés</button>
+    <button data-tab="posts" data-filter="winner">🏆 Gagnants</button>
+    <button data-tab="posts" data-filter="all">📋 Tous</button>
+    <button data-tab="users" data-filter="">👥 Utilisateurs</button>
+    <button data-tab="settings" data-filter="">⚙️ Paramètres</button>
+  </div>
+
+  <!-- Publications -->
+  <div id="tabPosts">
+    <div style="overflow-x:auto">
+      <table id="postsTable">
+        <thead>
+          <tr>
+            <th>ID</th><th>Utilisateur</th><th>Email / IP</th><th>Photos</th><th>Texte</th><th>Votes / Points</th><th>Statut</th><th>Mois</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Utilisateurs -->
+  <div id="tabUsers" class="hidden">
+    <p style="font-size:13px;color:#666;margin-bottom:10px">
+      ⚠️ Les lignes en rouge indiquent plusieurs comptes créés depuis la même adresse IP — signe possible de triche.
+    </p>
+    <div style="overflow-x:auto">
+      <table id="usersTable">
+        <thead>
+          <tr><th>ID</th><th>Pseudo</th><th>Email</th><th>IP</th><th>Comptes / IP</th><th>Admin</th><th>Inscrit le</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Paramètres -->
+  <div id="tabSettings" class="hidden">
+    <div class="change-pwd-box">
+      <h3 style="color:var(--green-1);margin-bottom:12px">🔑 Changer le mot de passe admin</h3>
+      <div class="form-group">
+        <label>Nouveau mot de passe (min 6 caractères)</label>
+        <input type="password" id="newPwd" placeholder="••••••••">
+      </div>
+      <button class="btn-primary" id="btnChangePwd">Enregistrer</button>
+      <div id="pwdMsg" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow)">
+    <h3 style="color:var(--green-1);margin-bottom:8px">📎 Liens du site</h3>
+    <a href="https://mourad-ahmim.com/ecologiste-du-mois" target="_blank" class="btn-secondary" style="margin:4px">🌿 L'écologiste du mois</a>
+    <a href="https://mourad-ahmim.com/matv" target="_blank" class="btn-secondary" style="margin:4px">📺 MATV</a>
+    <a href="/" class="btn-secondary" style="margin:4px">📱 Voir l'app</a>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+let currentFilter = 'pending';
+let currentTab = 'posts';
+
+async function api(url, opts={}){
+  const r = await fetch(url, { credentials:'same-origin', ...opts });
+  return { ok: r.ok, status: r.status, data: await r.json().catch(()=>({})) };
+}
+
+async function checkAdmin(){
+  const r = await api('/api/me');
+  if (r.data.user && r.data.user.isAdmin) showPanel();
+}
+
+document.getElementById('btnAdminLogin').addEventListener('click', async () => {
+  const pseudo = document.getElementById('adminUser').value.trim();
+  const password = document.getElementById('adminPass').value;
+  const r = await api('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pseudo, password}) });
+  if (r.ok && r.data.isAdmin){ showPanel(); }
+  else document.getElementById('loginMsg').innerHTML = '<div class="alert err">Identifiants invalides ou droits insuffisants</div>';
+});
+
+document.getElementById('btnAdminLogout').addEventListener('click', async () => {
+  await api('/api/logout', {method:'POST'});
+  location.reload();
+});
+
+function showPanel(){
+  document.getElementById('loginPanel').classList.add('hidden');
+  document.getElementById('adminPanel').classList.remove('hidden');
+  loadStats();
+  loadPosts();
+}
+
+async function loadStats(){
+  const r = await api('/api/admin/stats');
+  const s = r.data;
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat"><div class="num">${s.users||0}</div><div class="lbl">Utilisateurs</div></div>
+    <div class="stat"><div class="num">${s.posts||0}</div><div class="lbl">Publications</div></div>
+    <div class="stat"><div class="num">${s.pending||0}</div><div class="lbl">En attente</div></div>
+    <div class="stat"><div class="num">${s.votes||0}</div><div class="lbl">Votes</div></div>
+    <div class="stat ${s.suspectIps>0?'warn':''}"><div class="num">${s.suspectIps||0}</div><div class="lbl">IPs suspectes</div></div>
+  `;
+}
+
+async function loadPosts(){
+  const url = currentFilter==='all' ? '/api/admin/posts' : '/api/admin/posts?status='+currentFilter;
+  const r = await api(url);
+  const tbody = document.querySelector('#postsTable tbody');
+  tbody.innerHTML = '';
+  if (!r.data.posts || r.data.posts.length===0){
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:#888">Aucune publication</td></tr>';
+    return;
+  }
+  for (const p of r.data.posts){
+    const tr = document.createElement('tr');
+    const pts = Math.min(100, (p.votes_count||0) * 2);
+    tr.innerHTML = `
+      <td>#${p.id}</td>
+      <td><b>${escapeHtml(p.pseudo)}</b></td>
+      <td style="font-size:11px"><div>${escapeHtml(p.email||'')}</div><div style="color:#999">${escapeHtml(p.user_ip||'')}</div></td>
+      <td><div class="row-photos">
+        <img class="thumb" src="${escapeHtml(p.photo1)}" onclick="showImg(this.src)">
+        <img class="thumb" src="${escapeHtml(p.photo2)}" onclick="showImg(this.src)">
+        <img class="thumb" src="${escapeHtml(p.selfie)}" onclick="showImg(this.src)" title="selfie" style="border:2px solid #d4a017">
+      </div></td>
+      <td style="max-width:220px;font-size:12px">
+        <div><b>FR:</b> ${escapeHtml((p.text_fr||'').slice(0,100))}</div>
+        <div dir="rtl"><b>AR:</b> ${escapeHtml((p.text_ar||'').slice(0,100))}</div>
+      </td>
+      <td><b>${p.votes_count}</b> votes<br><span style="color:var(--gold);font-weight:700">${pts}/100</span></td>
+      <td><span class="badge ${p.status}">${labelStatus(p.status)}</span></td>
+      <td>${p.month||'-'}</td>
+      <td style="min-width:200px">
+        <button class="btn-sm btn-approve" onclick="setStatus(${p.id},'approved')">✓ Approuver</button>
+        <button class="btn-sm btn-reject" onclick="setStatus(${p.id},'rejected')">✗ Rejeter</button>
+        <button class="btn-sm btn-winner" onclick="setStatus(${p.id},'winner')">🏆 Gagnant</button>
+        <button class="btn-sm btn-pending" onclick="setStatus(${p.id},'pending')">↺ Attente</button>
+        <button class="btn-sm btn-del" onclick="delPost(${p.id})">🗑</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+async function loadUsers(){
+  const r = await api('/api/admin/users');
+  const tbody = document.querySelector('#usersTable tbody');
+  tbody.innerHTML = '';
+  if (!r.data.users || r.data.users.length===0){
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:#888">Aucun utilisateur</td></tr>';
+    return;
+  }
+  for (const u of r.data.users){
+    const suspect = u.accounts_from_ip > 1 && !u.is_admin;
+    const tr = document.createElement('tr');
+    if (suspect) tr.style.background = '#fff5f5';
+    tr.innerHTML = `
+      <td>${u.id}</td>
+      <td><b>${escapeHtml(u.pseudo)}</b>${u.is_admin?'<span class="badge approved" style="margin-left:4px">ADMIN</span>':''}</td>
+      <td style="font-size:12px">${escapeHtml(u.email||'-')}</td>
+      <td style="font-family:monospace;font-size:12px">${escapeHtml(u.ip||'-')}</td>
+      <td class="${suspect?'ip-warn':''}">${u.accounts_from_ip} compte(s)${suspect?' ⚠️':''}</td>
+      <td>${u.is_admin?'✅':'-'}</td>
+      <td style="font-size:11px">${u.created_at||''}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+function labelStatus(s){
+  return {pending:'En attente',approved:'Approuvé',rejected:'Rejeté',winner:'🏆 Gagnant'}[s]||s;
+}
+
+async function setStatus(id, status){
+  await api('/api/admin/posts/'+id+'/status', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({status}) });
+  loadPosts(); loadStats();
+}
+
+async function delPost(id){
+  if (!confirm('Supprimer définitivement la publication #'+id+' ?')) return;
+  await api('/api/admin/posts/'+id, { method:'DELETE' });
+  loadPosts(); loadStats();
+}
+
+function showImg(src){
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+// Tabs
+document.querySelectorAll('.admin-tabs button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.admin-tabs button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentTab = b.dataset.tab;
+
+    document.getElementById('tabPosts').classList.add('hidden');
+    document.getElementById('tabUsers').classList.add('hidden');
+    document.getElementById('tabSettings').classList.add('hidden');
+
+    if (currentTab === 'posts') {
+      currentFilter = b.dataset.filter;
+      document.getElementById('tabPosts').classList.remove('hidden');
+      loadPosts();
+    } else if (currentTab === 'users') {
+      document.getElementById('tabUsers').classList.remove('hidden');
+      loadUsers();
+    } else if (currentTab === 'settings') {
+      document.getElementById('tabSettings').classList.remove('hidden');
+    }
+  });
+});
+
+// Changement mot de passe
+document.getElementById('btnChangePwd').addEventListener('click', async () => {
+  const newPassword = document.getElementById('newPwd').value;
+  const r = await api('/api/admin/change-password', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({newPassword})
+  });
+  const box = document.getElementById('pwdMsg');
+  if (r.ok) box.innerHTML = '<div class="alert ok">✅ Mot de passe modifié avec succès.</div>';
+  else box.innerHTML = '<div class="alert err">❌ ' + escapeHtml(r.data.error||'Erreur') + '</div>';
+  setTimeout(()=>box.innerHTML='', 4000);
+});
+
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+checkAdmin();
+</script>
+</body>
+</html>

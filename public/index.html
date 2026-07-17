@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+<title>Moi j'aime mon pays — شوف أنا نحب الطبيعة</title>
+<link rel="stylesheet" href="/css/style.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="row">
+    <div class="logo" id="logoBox">
+      <img src="/img/cerf.png" alt="Cerf de Berbérie" style="width:100%;height:100%;object-fit:cover">
+    </div>
+    <div class="brand">
+      <div class="fr" data-fr="Moi j'aime mon pays" data-ar="أنا نحب بلادي">Moi j'aime mon pays</div>
+      <div class="ar">شوف أنا نحب الطبيعة</div>
+    </div>
+    <button class="lang-switch" id="langBtn">العربية</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="badge" data-fr="ÉCOLOGISTE DU MOIS" data-ar="بيئي الشهر">ÉCOLOGISTE DU MOIS</span>
+        <h1 data-fr="Concours pour la protection de l'environnement et de la biodiversité en Algérie." data-ar="مسابقة لحماية البيئة والتنوع البيولوجي في الجزائر.">
+          Concours pour la protection de l'environnement et de la biodiversité en Algérie.
+        </h1>
+        <p data-fr="Publie 3 photos (dont 1 selfie avec ton action) + un petit texte qui explique ton geste pour la nature. Chaque vote reçu = 2 points. À 100 points, tu deviens Écologiste du mois, ta photo est publiée sur mourad-ahmim.com et tu es contacté pour une interview sur MATV."
+           data-ar="انشر 3 صور (منها سيلفي مع عملك) + نصًا قصيرًا يشرح مبادرتك من أجل الطبيعة. كل صوت = نقطتان. عند بلوغ 100 نقطة، تصبح بيئي الشهر، تُنشر صورتك على mourad-ahmim.com ويتم الاتصال بك لإجراء مقابلة على MATV.">
+          Publie 3 photos (dont 1 selfie avec ton action) + un petit texte qui explique ton geste pour la nature. Chaque vote reçu = 2 points. À 100 points, tu deviens Écologiste du mois, ta photo est publiée sur mourad-ahmim.com et tu es contacté pour une interview sur MATV.
+        </p>
+      </div>
+      <img src="/img/cerf.png" alt="Cerf de Berbérie" class="hero-cerf">
+    </div>
+  </div>
+
+  <!-- Comment participer -->
+  <div class="card how-card">
+    <h2 data-fr="Comment participer ?" data-ar="كيفية المشاركة؟">Comment participer ?</h2>
+    <ol class="how-steps">
+      <li data-fr="Inscris-toi avec un email valide (indispensable pour être contacté si tu gagnes)."
+          data-ar="سجّل ببريد إلكتروني صالح (ضروري للتواصل معك إذا فزت).">
+        Inscris-toi avec un email valide (indispensable pour être contacté si tu gagnes).
+      </li>
+      <li data-fr="Poste 3 photos : 2 photos de ton action + 1 selfie avec ton action envers la nature."
+          data-ar="انشر 3 صور: صورتان لعملك + سيلفي مع مبادرتك من أجل الطبيعة.">
+        Poste 3 photos : 2 photos de ton action + 1 selfie avec ton action envers la nature.
+      </li>
+      <li data-fr="Explique ton action en un petit texte (FR et/ou AR)."
+          data-ar="اشرح مبادرتك في نص قصير (بالفرنسية و/أو العربية).">
+        Explique ton action en un petit texte (FR et/ou AR).
+      </li>
+      <li data-fr="Les autres participants votent pour toi — chaque vote vaut 2 points."
+          data-ar="يصوّت المشاركون الآخرون لك — كل صوت يساوي نقطتين.">
+        Les autres participants votent pour toi — chaque vote vaut 2 points.
+      </li>
+      <li data-fr="À 100 points, tu es classé Écologiste du mois : ta photo est publiée sur mourad-ahmim.com et tu es contacté pour une interview sur MATV."
+          data-ar="عند بلوغ 100 نقطة، تُصنّف بيئي الشهر: تُنشر صورتك على mourad-ahmim.com ويتم الاتصال بك لمقابلة على MATV.">
+        À 100 points, tu es classé Écologiste du mois : ta photo est publiée sur mourad-ahmim.com et tu es contacté pour une interview sur MATV.
+      </li>
+      <li data-fr="⚠️ 1 seule publication autorisée par participant et par mois."
+          data-ar="⚠️ منشور واحد فقط مسموح لكل مشارك في الشهر.">
+        ⚠️ 1 seule publication autorisée par participant et par mois.
+      </li>
+    </ol>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-view="feed" data-fr="Actions" data-ar="الأعمال">Actions</button>
+    <button class="tab" data-view="post" data-fr="Publier" data-ar="نشر">Publier</button>
+    <button class="tab" data-view="winner" data-fr="Écologiste" data-ar="بيئي الشهر">Écologiste</button>
+    <button class="tab" data-view="me" data-fr="Moi" data-ar="حسابي">Moi</button>
+  </div>
+
+  <div id="msg"></div>
+
+  <!-- FEED -->
+  <section id="view-feed" class="view">
+    <div id="postsList"></div>
+    <div id="emptyFeed" class="card hidden" style="text-align:center">
+      <p data-fr="Aucune action publiée ce mois-ci. Sois le premier !" data-ar="لا توجد أعمال هذا الشهر. كن الأول!">Aucune action publiée ce mois-ci. Sois le premier !</p>
+    </div>
+  </section>
+
+  <!-- POST / AUTH -->
+  <section id="view-post" class="view hidden">
+    <!-- Auth block -->
+    <div id="authBlock" class="card">
+      <h2 data-fr="Rejoins la communauté" data-ar="انضم إلى المجتمع">Rejoins la communauté</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:12px"
+         data-fr="Email obligatoire pour t'inscrire — il sert uniquement à te contacter si tu deviens Écologiste du mois (interview MATV)."
+         data-ar="البريد الإلكتروني إلزامي للتسجيل — يُستخدم فقط للتواصل معك إذا فزت بلقب بيئي الشهر (مقابلة MATV).">
+        Email obligatoire pour t'inscrire — il sert uniquement à te contacter si tu deviens Écologiste du mois (interview MATV).
+      </p>
+      <div class="form-group">
+        <label data-fr="Pseudo" data-ar="اسم المستخدم">Pseudo</label>
+        <input type="text" id="authPseudo" placeholder="ecolo_alger" />
+      </div>
+      <div class="form-group">
+        <label data-fr="Email" data-ar="البريد الإلكتروني">Email</label>
+        <input type="email" id="authEmail" placeholder="nom@exemple.com" />
+      </div>
+      <div class="form-group">
+        <label data-fr="Mot de passe" data-ar="كلمة السر">Mot de passe</label>
+        <input type="password" id="authPass" placeholder="••••••" />
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-primary" id="btnLogin" data-fr="Se connecter" data-ar="دخول">Se connecter</button>
+        <button class="btn-secondary" id="btnRegister" data-fr="Créer un compte" data-ar="إنشاء حساب">Créer un compte</button>
+      </div>
+    </div>
+
+    <!-- Post form -->
+    <div id="postFormBlock" class="card hidden">
+      <h2 data-fr="Publier ton action écologique" data-ar="انشر عملك البيئي">Publier ton action écologique</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:12px" data-fr="⚠️ 1 selfie obligatoire pour prouver que c'est bien toi. 1 seule publication par mois." data-ar="⚠️ صورة سيلفي إجبارية لإثبات هويتك. منشور واحد فقط في الشهر.">⚠️ 1 selfie obligatoire pour prouver que c'est bien toi. 1 seule publication par mois.</p>
+      <form id="postForm">
+        <div class="form-group">
+          <label data-fr="Description (français)" data-ar="الوصف (بالفرنسية)">Description (français)</label>
+          <textarea name="text_fr" placeholder="Ex: J'ai planté 5 arbres à..." maxlength="500"></textarea>
+        </div>
+        <div class="form-group">
+          <label data-fr="الوصف بالعربية" data-ar="الوصف بالعربية">الوصف بالعربية</label>
+          <textarea name="text_ar" placeholder="مثلا: قمت بغرس 5 أشجار في..." maxlength="500" dir="rtl"></textarea>
+        </div>
+        <div class="form-group">
+          <label data-fr="Photo 1 (action)" data-ar="الصورة 1 (العمل)">Photo 1 (action)</label>
+          <label class="file-input" data-target="photo1">
+            <span data-fr="📷 Choisir une photo" data-ar="📷 اختر صورة">📷 Choisir une photo</span>
+            <input type="file" name="photo1" accept="image/*" required />
+          </label>
+        </div>
+        <div class="form-group">
+          <label data-fr="Photo 2 (action)" data-ar="الصورة 2 (العمل)">Photo 2 (action)</label>
+          <label class="file-input" data-target="photo2">
+            <span data-fr="📷 Choisir une photo" data-ar="📷 اختر صورة">📷 Choisir une photo</span>
+            <input type="file" name="photo2" accept="image/*" required />
+          </label>
+        </div>
+        <div class="form-group">
+          <label data-fr="Selfie (obligatoire)" data-ar="صورة سيلفي (إجبارية)">Selfie (obligatoire)</label>
+          <label class="file-input" data-target="selfie">
+            <span data-fr="🤳 Prendre / choisir un selfie" data-ar="🤳 التقط / اختر سيلفي">🤳 Prendre / choisir un selfie</span>
+            <input type="file" name="selfie" accept="image/*" capture="user" required />
+          </label>
+        </div>
+        <button type="submit" class="btn-primary" data-fr="Publier" data-ar="نشر">Publier</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- WINNER -->
+  <section id="view-winner" class="view hidden">
+    <div id="winnerBox"></div>
+    <div class="card">
+      <h2 data-fr="Le prix" data-ar="الجائزة">Le prix</h2>
+      <p style="font-size:14px" data-fr="Le meilleur écologiste atteignant 100 points sera présenté sur la page L'ÉCOLOGISTE DU MOIS de mourad-ahmim.com et interviewé sur MATV." data-ar="أفضل بيئي يحصل على 100 نقطة سيُعرض على صفحة بيئي الشهر في mourad-ahmim.com ومقابلة على MATV.">
+        Le meilleur écologiste atteignant 100 points sera présenté sur la page L'ÉCOLOGISTE DU MOIS de mourad-ahmim.com et interviewé sur MATV.
+      </p>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn-secondary" href="https://mourad-ahmim.com/ecologiste-du-mois" target="_blank">🌿 L'écologiste du mois</a>
+        <a class="btn-secondary" href="https://mourad-ahmim.com/matv" target="_blank">📺 MATV</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ME -->
+  <section id="view-me" class="view hidden">
+    <div id="meBlock"></div>
+  </section>
+
+  <div class="site-links">
+    <div>© mourad-ahmim.com</div>
+    <a href="https://mourad-ahmim.com" target="_blank">mourad-ahmim.com</a>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

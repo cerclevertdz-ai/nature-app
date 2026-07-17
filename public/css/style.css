@@ -1,0 +1,151 @@
+/* Moi j'aime mon pays / شوف أنا نحب الطبيعة */
+:root{
+  --green-1:#0e5c3f;
+  --green-2:#1e8a5a;
+  --green-3:#a8d5a2;
+  --sand:#f5efe0;
+  --earth:#7a5230;
+  --gold:#d4a017;
+  --text:#1f2d1f;
+  --bg:#faf7ee;
+  --white:#fff;
+  --shadow:0 6px 20px rgba(0,0,0,.08);
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--text);font-family:'Segoe UI','Cairo',system-ui,sans-serif;line-height:1.5}
+body.rtl{direction:rtl;font-family:'Cairo','Segoe UI',system-ui,sans-serif}
+img{max-width:100%;display:block}
+button{cursor:pointer;font-family:inherit}
+a{color:var(--green-1);text-decoration:none}
+
+/* Header */
+.app-header{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(135deg,var(--green-1),var(--green-2));
+  color:#fff;padding:12px 16px;box-shadow:var(--shadow);
+}
+.app-header .row{display:flex;align-items:center;gap:12px;max-width:960px;margin:0 auto}
+.logo{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--sand);display:grid;place-items:center;
+  overflow:hidden;border:2px solid var(--gold);flex-shrink:0
+}
+.logo svg{width:32px;height:32px}
+.brand{flex:1;min-width:0}
+.brand .fr{font-size:14px;font-weight:600;opacity:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand .ar{font-size:15px;font-weight:700;font-family:'Cairo',serif}
+.lang-switch{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:600}
+.lang-switch:hover{background:rgba(255,255,255,.3)}
+
+/* Container */
+.container{max-width:960px;margin:0 auto;padding:16px}
+
+/* Hero */
+.hero{
+  background:linear-gradient(135deg,#e8f3e0,#f5efe0);
+  border-radius:var(--radius);padding:20px;margin-bottom:16px;
+  border:1px solid rgba(14,92,63,.15);position:relative;overflow:hidden;
+}
+.hero h1{font-size:22px;color:var(--green-1);margin-bottom:8px;line-height:1.3}
+.hero p{color:var(--earth);font-size:14px}
+.hero .badge{display:inline-block;background:var(--gold);color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:8px;letter-spacing:.5px}
+.hero-inner{display:flex;align-items:center;gap:14px}
+.hero-text{flex:1;min-width:0}
+.hero-cerf{width:110px;height:auto;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.15))}
+@media (max-width:420px){.hero-cerf{width:80px}}
+
+/* Tabs */
+.tabs{display:flex;gap:6px;background:#fff;padding:6px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:16px;overflow-x:auto}
+.tab{flex:1;min-width:80px;padding:10px;border:none;background:transparent;color:var(--text);font-weight:600;border-radius:8px;font-size:13px;white-space:nowrap}
+.tab.active{background:var(--green-1);color:#fff}
+
+/* Cards */
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+.card h2{font-size:16px;color:var(--green-1);margin-bottom:12px}
+
+/* Post */
+.post{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin-bottom:14px}
+.post-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--green-3);display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px}
+.post-head .who{flex:1}
+.post-head .who .name{font-weight:700;color:var(--green-1)}
+.post-head .who .date{font-size:11px;color:#777}
+.points-badge{background:linear-gradient(135deg,var(--gold),#e8b93a);color:#fff;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
+
+.post-photos{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:6px;margin:10px 0;height:240px}
+.post-photos .p1{grid-row:1/3}
+.post-photos img{width:100%;height:100%;object-fit:cover;border-radius:10px;background:#eee}
+.selfie-tag{position:relative}
+.selfie-tag::after{content:'📸 selfie';position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.65);color:#fff;padding:2px 6px;border-radius:6px;font-size:10px}
+body.rtl .selfie-tag::after{right:auto;left:6px}
+
+.post-text{font-size:14px;margin:8px 0;color:#333}
+.post-actions{display:flex;gap:8px;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid #eee}
+.vote-btn{background:var(--green-1);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px}
+.vote-btn:hover{background:var(--green-2)}
+.vote-btn.voted{background:var(--earth);cursor:not-allowed}
+.vote-btn:disabled{opacity:.6;cursor:not-allowed}
+.votes-count{font-size:13px;color:#555;font-weight:600}
+
+/* Forms */
+.form-group{margin-bottom:14px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--green-1)}
+input[type=text],input[type=password],input[type=email],textarea{
+  width:100%;padding:12px;border:1px solid #d5d0bd;border-radius:10px;font-size:14px;background:#fdfcf7;font-family:inherit
+}
+textarea{resize:vertical;min-height:80px}
+.file-input{
+  display:block;padding:20px;border:2px dashed var(--green-3);border-radius:10px;
+  text-align:center;color:var(--green-1);cursor:pointer;background:#f8fbf6;font-size:13px;font-weight:600
+}
+.file-input input{display:none}
+.file-input.has-file{border-style:solid;background:#e8f3e0}
+.file-preview{margin-top:8px;max-height:120px;border-radius:8px;object-fit:cover}
+.btn-primary{
+  width:100%;padding:14px;background:linear-gradient(135deg,var(--green-1),var(--green-2));
+  color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;box-shadow:var(--shadow)
+}
+.btn-primary:hover{filter:brightness(1.05)}
+.btn-secondary{
+  padding:10px 14px;background:#fff;color:var(--green-1);border:2px solid var(--green-1);border-radius:10px;font-weight:600
+}
+
+/* Winner */
+.winner-card{
+  background:linear-gradient(135deg,#fff8e1,#fff);border:2px solid var(--gold);
+  border-radius:var(--radius);padding:16px;text-align:center;margin-bottom:14px
+}
+.winner-card .crown{font-size:32px}
+.winner-card h3{color:var(--gold);margin:6px 0}
+.winner-card .win-name{font-weight:700;color:var(--green-1);font-size:18px}
+
+/* Messages */
+.alert{padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:13px}
+.alert.err{background:#fee;color:#a00;border:1px solid #fbb}
+.alert.ok{background:#eefbe8;color:#0e5c3f;border:1px solid var(--green-3)}
+.hidden{display:none !important}
+
+/* Progress */
+.progress{background:#eee;border-radius:20px;height:8px;overflow:hidden;margin-top:6px}
+.progress > div{background:linear-gradient(90deg,var(--green-2),var(--gold));height:100%;transition:width .4s}
+
+/* Footer links */
+.site-links{text-align:center;padding:20px;color:#666;font-size:12px}
+.site-links a{display:inline-block;margin:4px 8px;color:var(--green-1);font-weight:600}
+
+/* RTL fixes */
+body.rtl .post-photos{direction:ltr}
+body.rtl input,body.rtl textarea{text-align:right}
+
+@media (min-width:640px){
+  .hero h1{font-size:26px}
+  .post-photos{height:280px}
+}
+
+/* How to participate */
+.how-card{margin-top:14px;border-left:5px solid var(--gold)}
+.how-card h2{color:var(--green-1);margin-bottom:10px}
+.how-steps{padding-inline-start:22px;display:flex;flex-direction:column;gap:8px}
+.how-steps li{font-size:14px;line-height:1.55}
+body.rtl .how-card{border-left:none;border-right:5px solid var(--gold)}
