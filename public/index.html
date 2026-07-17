@@ -5,14 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
 <title>Moi j'aime mon pays — شوف أنا نحب الطبيعة</title>
 <link rel="stylesheet" href="/css/style.css" />
+<link rel="manifest" href="/manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js');
-  }
-</script>
-  <body>
+<body>
 
 <header class="app-header">
   <div class="row">
@@ -45,7 +41,6 @@
     </div>
   </div>
 
-  <!-- Comment participer -->
   <div class="card how-card">
     <h2 data-fr="Comment participer ?" data-ar="كيفية المشاركة؟">Comment participer ?</h2>
     <ol class="how-steps">
@@ -85,7 +80,6 @@
 
   <div id="msg"></div>
 
-  <!-- FEED -->
   <section id="view-feed" class="view">
     <div id="postsList"></div>
     <div id="emptyFeed" class="card hidden" style="text-align:center">
@@ -93,9 +87,7 @@
     </div>
   </section>
 
-  <!-- POST / AUTH -->
   <section id="view-post" class="view hidden">
-    <!-- Auth block -->
     <div id="authBlock" class="card">
       <h2 data-fr="Rejoins la communauté" data-ar="انضم إلى المجتمع">Rejoins la communauté</h2>
       <p style="font-size:13px;color:#666;margin-bottom:12px"
@@ -121,7 +113,6 @@
       </div>
     </div>
 
-    <!-- Post form -->
     <div id="postFormBlock" class="card hidden">
       <h2 data-fr="Publier ton action écologique" data-ar="انشر عملك البيئي">Publier ton action écologique</h2>
       <p style="font-size:13px;color:#666;margin-bottom:12px" data-fr="⚠️ 1 selfie obligatoire pour prouver que c'est bien toi. 1 seule publication par mois." data-ar="⚠️ صورة سيلفي إجبارية لإثبات هويتك. منشور واحد فقط في الشهر.">⚠️ 1 selfie obligatoire pour prouver que c'est bien toi. 1 seule publication par mois.</p>
@@ -160,7 +151,6 @@
     </div>
   </section>
 
-  <!-- WINNER -->
   <section id="view-winner" class="view hidden">
     <div id="winnerBox"></div>
     <div class="card">
@@ -175,7 +165,6 @@
     </div>
   </section>
 
-  <!-- ME -->
   <section id="view-me" class="view hidden">
     <div id="meBlock"></div>
   </section>
